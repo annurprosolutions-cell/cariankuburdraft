@@ -5,177 +5,171 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     
     <!-- PWA Meta Tags -->
-    <meta name="theme-color" content="#15803d">
+    <meta name="theme-color" content="#1a5d2e">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="description" content="Sistem Carian Interaktif Tanah Perkuburan Islam">
     
-    <title>Sistem Pusara Makmur</title>
+    <title>eMaqbarah - Peta Kubur</title>
     
     <!-- Load Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
         
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #f3f4f6;
-            /* Prevent body scroll bounce on mobile, only map should scroll */
+            background-color: #f8fafc;
             overscroll-behavior-y: none;
         }
 
-        /* Custom Scrollbar for Map Area */
-        .custom-scrollbar::-webkit-scrollbar {
-            width: 6px;
-            height: 6px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-track {
-            background: #f1f1f1; 
-            border-radius: 4px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb {
-            background: #cbd5e1; 
-            border-radius: 4px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-            background: #94a3b8; 
-        }
+        /* Custom Scrollbar */
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
 
-        /* Smooth momentum scrolling for iOS */
-        .scrolling-touch {
-            -webkit-overflow-scrolling: touch;
-        }
+        .scrolling-touch { -webkit-overflow-scrolling: touch; }
 
-        /* Highlight Animation (Glowing Effect) */
-        @keyframes glow {
-            0% { box-shadow: 0 0 5px 2px #fde047; transform: scale(1); }
-            50% { box-shadow: 0 0 20px 8px #fde047; transform: scale(1.15); z-index: 10; }
-            100% { box-shadow: 0 0 5px 2px #fde047; transform: scale(1); }
+        /* Highlight Animation matching the image (Green Glow) */
+        @keyframes glowGreen {
+            0% { box-shadow: 0 0 5px 2px rgba(34, 197, 94, 0.5); transform: scale(1); }
+            50% { box-shadow: 0 0 15px 6px rgba(34, 197, 94, 0.7); transform: scale(1.1); z-index: 20; }
+            100% { box-shadow: 0 0 5px 2px rgba(34, 197, 94, 0.5); transform: scale(1); }
         }
         
         .grave-slot {
-            transition: all 0.3s ease;
-            border: 1px solid rgba(0,0,0,0.1);
+            transition: all 0.2s ease;
         }
         
         .grave-slot:hover {
-            transform: scale(1.1);
+            transform: scale(1.05);
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
             z-index: 10;
         }
 
+        /* The specific selected state matching the image */
         .grave-highlighted {
-            background-color: #fde047 !important; /* Yellow 300 */
-            animation: glow 1.5s infinite;
-            z-index: 20;
-            border-color: #ca8a04;
-        }
-
-        /* Separator Line for Gender Split */
-        .gender-separator {
-            position: absolute;
-            right: -4px;
-            top: 0;
-            height: 100%;
-            width: 2px;
-            background-color: #cbd5e1;
-            z-index: 5;
+            background-color: #22c55e !important; /* Green */
+            border: 3px solid #16a34a !important;
+            color: white !important;
+            animation: glowGreen 1.5s infinite;
+            z-index: 30;
         }
     </style>
 </head>
 <body class="min-h-[100dvh] text-gray-800 flex flex-col overflow-hidden">
 
-    <!-- HEADER -->
-    <header class="bg-white shadow-sm sticky top-0 z-30 shrink-0">
-        <div class="max-w-7xl mx-auto px-4 py-3 sm:py-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row justify-between items-center gap-3 sm:gap-4">
-            <div class="flex items-center gap-3 w-full sm:w-auto">
-                <div class="w-10 h-10 sm:w-12 sm:h-12 shrink-0 rounded-full bg-green-100 flex items-center justify-center">
-                    <!-- MapPin SVG -->
-                    <svg class="text-green-700 w-5 h-5 sm:w-6 sm:h-6" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+    <!-- TOP NAVBAR (Matching the dark green theme) -->
+    <nav class="bg-[#1a5d2e] text-white shrink-0 z-30 shadow-md">
+        <div class="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-14 sm:h-16">
+                <!-- Logo & Links -->
+                <div class="flex items-center gap-8">
+                    <div class="flex items-center gap-3">
+                        <img src="https://i.postimg.cc/fypbhZ8v/masjid-arrasyidin.png" alt="Logo Masjid" class="h-10 sm:h-11 w-auto object-contain bg-white rounded-full p-0.5 border border-white/20 shadow-sm" onerror="this.style.display='none'">
+                        <div class="flex flex-col justify-center">
+                            <span class="font-serif font-bold text-xl sm:text-2xl tracking-wide leading-none">eMaqbarah</span>
+                            <span class="text-[10px] sm:text-xs font-semibold text-green-100 tracking-wider mt-1 uppercase">Masjid Al-Rasyidin</span>
+                        </div>
+                    </div>
+                    
+                    <div class="hidden md:flex space-x-8 text-sm font-semibold tracking-wide">
+                        <a href="#" class="border-b-2 border-white text-white py-5">PETA KUBUR</a>
+                        <a href="#" class="text-white/80 hover:text-white py-5 transition-colors">CARIAN</a>
+                        <a href="#" class="text-white/80 hover:text-white py-5 transition-colors">DIREKTORI</a>
+                        <a href="#" class="text-white/80 hover:text-white py-5 transition-colors">INFO</a>
+                    </div>
                 </div>
-                <div>
-                    <h1 class="text-lg sm:text-2xl font-bold text-green-800 leading-tight">Sistem Pusara Makmur</h1>
-                    <p class="text-xs sm:text-sm text-gray-500 font-medium">Carian Interaktif Tanah Perkuburan</p>
+
+                <!-- Admin Button -->
+                <div class="flex items-center">
+                    <button class="flex items-center gap-2 border border-white/40 bg-white/10 hover:bg-white/20 px-4 py-1.5 rounded-full text-sm font-medium transition-colors">
+                        Admin 
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                    </button>
                 </div>
             </div>
+        </div>
+    </nav>
 
-            <!-- SEARCH BAR -->
-            <div class="w-full sm:w-96 relative">
-                <div class="relative">
-                    <input
-                        type="text"
-                        id="searchInput"
-                        class="w-full pl-10 pr-10 py-2 sm:pl-12 sm:pr-12 sm:py-3 rounded-xl border-2 border-gray-200 focus:border-green-600 focus:outline-none focus:ring-0 text-base sm:text-lg shadow-sm transition-all placeholder-gray-400"
-                        placeholder="Cari nama arwah..."
-                        onkeyup="handleSearch()"
-                        autocomplete="off"
-                    />
-                    <!-- Search SVG -->
-                    <svg class="absolute left-3 sm:left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5 sm:w-6 sm:h-6" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
-                    
-                    <!-- Clear Button (Hidden by default) -->
-                    <button id="clearSearchBtn" onclick="clearSearch()" class="hidden absolute right-3 sm:right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 p-1">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+    <!-- SEARCH & FILTER BAR -->
+    <div class="bg-white border-b border-gray-200 shrink-0 z-20">
+        <div class="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-3 sm:py-4">
+            <div class="flex flex-col sm:flex-row gap-3 sm:gap-4 items-center">
+                
+                <!-- Search Input Group -->
+                <div class="flex w-full sm:flex-1 relative">
+                    <div class="relative w-full">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                        </div>
+                        <input type="text" id="searchInput" onkeyup="handleSearch()" autocomplete="off" class="block w-full pl-10 pr-3 py-2.5 border border-gray-300 rounded-l-lg focus:ring-green-500 focus:border-green-500 sm:text-sm" placeholder="Cari nama si mati...">
+                        
+                        <!-- Search Suggestions Dropdown -->
+                        <div id="searchSuggestions" class="hidden absolute top-full left-0 right-0 mt-1 bg-white rounded-lg shadow-xl border border-gray-200 max-h-60 overflow-y-auto z-50"></div>
+                    </div>
+                    <button class="bg-[#16a34a] hover:bg-green-700 text-white font-medium px-6 py-2.5 rounded-r-lg transition-colors border border-[#16a34a]">
+                        Cari
                     </button>
                 </div>
 
-                <!-- SEARCH SUGGESTIONS -->
-                <div id="searchSuggestions" class="hidden absolute top-full left-0 right-0 mt-1 sm:mt-2 bg-white rounded-xl shadow-xl border border-gray-100 max-h-[50vh] sm:max-h-60 overflow-y-auto z-50 overscroll-contain">
-                    <!-- Suggestions will be populated here via JS -->
+                <!-- Filters -->
+                <div class="flex w-full sm:w-auto gap-3">
+                    <select class="block w-full sm:w-40 pl-3 pr-10 py-2.5 text-base border border-gray-300 focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm rounded-lg text-gray-700">
+                        <option>Semua Blok</option>
+                        <option>Blok A</option>
+                    </select>
+                    <select class="block w-full sm:w-40 pl-3 pr-10 py-2.5 text-base border border-gray-300 focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm rounded-lg text-gray-700">
+                        <option>Semua Status</option>
+                        <option>Kosong</option>
+                        <option>Digunakan</option>
+                    </select>
                 </div>
             </div>
         </div>
-    </header>
-
-    <!-- LEGEND -->
-    <div class="bg-white border-b border-gray-200 z-20 shrink-0">
-        <div class="max-w-7xl mx-auto px-4 py-2 sm:py-3 sm:px-6 lg:px-8 flex flex-wrap gap-2 sm:gap-4 justify-center sm:justify-start text-xs sm:text-sm font-medium">
-            <span class="flex items-center gap-1.5"><div class="w-4 h-4 sm:w-5 sm:h-5 rounded bg-[#e5e7eb]"></div> Kosong</span>
-            <span class="flex items-center gap-1.5"><div class="w-4 h-4 sm:w-5 sm:h-5 rounded bg-[#3b82f6]"></div> Lelaki</span>
-            <span class="flex items-center gap-1.5"><div class="w-4 h-4 sm:w-5 sm:h-5 rounded bg-[#ec4899]"></div> Perempuan</span>
-            <span class="flex items-center gap-1.5"><div class="w-4 h-4 sm:w-5 sm:h-5 rounded bg-[#f59e0b]"></div> Kanak-kanak</span>
-            <span class="flex items-center gap-1.5"><div class="w-4 h-4 sm:w-5 sm:h-5 rounded bg-[#8b5cf6]"></div> Tempahan</span>
-        </div>
     </div>
 
-    <!-- MAIN MAP AREA -->
-    <main class="flex-1 overflow-hidden relative bg-[#dcfce7]">
-        <!-- Instructions for mobile -->
-        <div class="absolute top-2 left-0 w-full text-center pointer-events-none z-10 sm:hidden">
-            <span class="bg-white/80 backdrop-blur px-3 py-1 rounded-full text-[10px] text-green-800 font-semibold shadow-sm">
-                Petunjuk: Tatal (scroll) untuk melihat peta penuh
-            </span>
-        </div>
-
-        <div id="mapContainer" class="w-full h-full overflow-auto p-4 pt-10 sm:p-8 custom-scrollbar scrolling-touch overscroll-contain" style="touch-action: pan-x pan-y;">
-            <div class="min-w-max mx-auto bg-white p-4 sm:p-10 rounded-2xl shadow-lg border border-green-100 inline-block relative">
+    <!-- MAIN GRID AREA -->
+    <main class="flex-1 overflow-hidden relative bg-white m-2 sm:m-4 rounded-xl shadow-sm border border-gray-200">
+        <div id="mapContainer" class="w-full h-full overflow-auto p-4 sm:p-6 custom-scrollbar scrolling-touch overscroll-contain">
+            <div class="min-w-max mx-auto space-y-8">
                 
-                <!-- QIBLAT INDICATOR -->
-                <div class="flex justify-between items-center mb-6 sm:mb-8 border-b-2 border-dashed border-green-200 pb-3 sm:pb-4">
-                    <div class="text-lg sm:text-xl font-bold text-green-800">Blok Utama (Al-Firdaus)</div>
-                    <div class="flex items-center gap-1 sm:gap-2 text-green-700 bg-green-50 px-3 py-1.5 sm:px-4 sm:py-2 rounded-full text-sm sm:text-base font-semibold">
-                        Kiblat &larr;
-                    </div>
-                </div>
-
-                <!-- ADULT SECTION CONTAINER -->
-                <div class="mb-10 sm:mb-12">
-                    <h2 class="text-base sm:text-lg font-semibold text-gray-700 mb-3 sm:mb-4 flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2">
-                        Kawasan Dewasa
-                        <span class="text-[10px] sm:text-xs font-normal bg-gray-100 px-2 py-1 rounded text-gray-500 w-fit">Kiri: Lelaki (10) | Kanan: Perempuan (9)</span>
-                    </h2>
-                    <div id="adultGridContainer" class="flex flex-col gap-2 sm:gap-3">
-                        <!-- Filled by JS -->
-                    </div>
-                </div>
-
-                <!-- CHILD SECTION CONTAINER -->
+                <!-- ADULT SECTION -->
                 <div>
-                    <h2 class="text-base sm:text-lg font-semibold text-gray-700 mb-3 sm:mb-4">Kawasan Kanak-kanak</h2>
-                    <div id="childGridContainer" class="flex flex-col gap-2 sm:gap-3">
-                        <!-- Filled by JS -->
+                    <!-- Header Title like the image -->
+                    <div class="flex items-center gap-2 mb-3">
+                        <h2 class="text-lg font-bold text-gray-800 tracking-wide">BLOK A</h2>
+                        <span class="text-gray-300">|</span>
+                        <span class="text-gray-800 font-bold">KESELURUHAN</span>
+                    </div>
+
+                    <div id="adultGridContainer" class="border border-gray-200 rounded-lg p-3 bg-gray-50/50">
+                        <!-- Rendered by JS using exact CSS Grid layout -->
+                    </div>
+                </div>
+
+                <!-- CHILD SECTION -->
+                <div>
+                    <h3 class="text-[#1a5d2e] font-bold text-sm mb-3 uppercase tracking-wide">Kawasan Kanak-Kanak (Bahagian Bawah Kiri)</h3>
+                    <div id="childGridContainer" class="flex flex-wrap gap-2">
+                        <!-- Rendered by JS -->
+                    </div>
+                </div>
+
+                <!-- LEGEND / PETUNJUK -->
+                <div class="mt-8 border border-gray-200 rounded-xl p-4 bg-white">
+                    <h4 class="text-xs font-bold text-gray-800 mb-3 uppercase">Petunjuk</h4>
+                    <div class="flex flex-wrap gap-x-6 gap-y-3 text-sm font-medium text-gray-700">
+                        <span class="flex items-center gap-2"><div class="w-5 h-5 rounded-sm bg-[#cbe2fa] border border-[#a2c8f0]"></div> Lelaki</span>
+                        <span class="flex items-center gap-2"><div class="w-5 h-5 rounded-sm bg-[#ffc8db] border border-[#f0a6c2]"></div> Perempuan</span>
+                        <span class="flex items-center gap-2"><div class="w-5 h-5 rounded-sm bg-[#ffe180] border border-[#f0c862]"></div> Kanak-kanak</span>
+                        <span class="flex items-center gap-2"><div class="w-5 h-5 rounded-sm bg-[#22c55e] border border-[#16a34a]"></div> Dipilih / Cari</span>
+                        <span class="flex items-center gap-2"><div class="w-5 h-5 rounded-sm bg-white border border-gray-300"></div> Kosong</span>
+                        <span class="flex items-center gap-2"><div class="w-5 h-5 rounded-sm bg-[#e2e8f0] border border-gray-300"></div> Telah Digunakan</span>
+                        <span class="flex items-center gap-2"><div class="w-5 h-5 rounded-sm bg-[#ffcc00] border border-[#e6b800]"></div> Tempahan</span>
                     </div>
                 </div>
 
@@ -183,78 +177,53 @@
         </div>
     </main>
 
-    <!-- MODAL (Hidden by default) -->
-    <div id="infoModal" class="hidden fixed inset-0 z-50 flex items-end sm:items-center justify-center sm:p-4 bg-gray-900 bg-opacity-60 backdrop-blur-sm transition-opacity" onclick="closeModal()">
-        <!-- Added max-h-[90vh] so content scrolls properly on small screens -->
-        <div class="bg-white w-full sm:max-w-lg sm:rounded-2xl rounded-t-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh] sm:max-h-[85vh] animate-slide-up sm:animate-none" onclick="event.stopPropagation()">
-            <!-- Modal Header -->
-            <div class="bg-green-700 px-5 py-3 sm:px-6 sm:py-4 flex justify-between items-center text-white shrink-0">
-                <h3 class="text-lg sm:text-xl font-bold">Maklumat Pusara</h3>
-                <button onclick="closeModal()" class="p-2 -mr-2 hover:bg-green-600 rounded-full transition-colors focus:outline-none">
-                    <!-- X SVG -->
-                    <svg class="w-5 h-5 sm:w-6 sm:h-6" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-                </button>
-            </div>
+    <!-- FOOTER -->
+    <footer class="bg-white border-t border-gray-200 shrink-0 z-20 shadow-inner">
+        <div class="max-w-[1400px] mx-auto px-4 py-4 text-center">
+            <p class="text-sm text-gray-500 font-medium">&copy; 2026 Pengurusan MASJID AL-RASYIDIN.</p>
+        </div>
+    </footer>
 
-            <!-- Modal Body (Dynamic content) -->
-            <div id="modalBody" class="p-5 sm:p-8 flex-1 overflow-y-auto scrolling-touch overscroll-contain custom-scrollbar">
-                <!-- Filled by JS -->
-            </div>
-            
-            <!-- Modal Footer -->
-            <div class="bg-gray-50 px-5 py-3 sm:px-6 sm:py-4 border-t border-gray-200 shrink-0 mb-safe">
-                <button onclick="closeModal()" class="w-full py-3 sm:py-4 bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold rounded-xl text-base sm:text-lg transition-colors focus:outline-none">
-                    Tutup Maklumat
+    <!-- MODAL (Unchanged logic, slightly adjusted colors) -->
+    <div id="infoModal" class="hidden fixed inset-0 z-50 flex items-end sm:items-center justify-center sm:p-4 bg-gray-900 bg-opacity-60 backdrop-blur-sm transition-opacity" onclick="closeModal()">
+        <div class="bg-white w-full sm:max-w-lg sm:rounded-2xl rounded-t-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh] sm:max-h-[85vh] animate-slide-up sm:animate-none" onclick="event.stopPropagation()">
+            <div class="bg-[#1a5d2e] px-5 py-4 flex justify-between items-center text-white shrink-0">
+                <h3 class="text-lg font-bold tracking-wide">Maklumat Pusara</h3>
+                <button onclick="closeModal()" class="p-1 hover:bg-white/20 rounded-full transition-colors">
+                    <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
                 </button>
+            </div>
+            <div id="modalBody" class="p-6 flex-1 overflow-y-auto scrolling-touch custom-scrollbar"></div>
+            <div class="bg-gray-50 px-5 py-4 border-t border-gray-200 shrink-0 mb-safe">
+                <button onclick="closeModal()" class="w-full py-3 bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold rounded-lg transition-colors">Tutup</button>
             </div>
         </div>
     </div>
 
-    <!-- Extra Styles for Mobile Slide-Up Animation & Safe Area -->
     <style>
-        @keyframes slideUp {
-            from { transform: translateY(100%); }
-            to { transform: translateY(0); }
-        }
-        .animate-slide-up {
-            animation: slideUp 0.3s ease-out forwards;
-        }
-        /* Handle iOS bottom safe area spacing */
-        .mb-safe {
-            margin-bottom: env(safe-area-inset-bottom);
-        }
+        @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+        .animate-slide-up { animation: slideUp 0.3s ease-out forwards; }
+        .mb-safe { margin-bottom: env(safe-area-inset-bottom); }
     </style>
 
     <!-- SCRIPT LOGIC -->
     <script>
-        // --- CONFIGURATION & THEME ---
-        const ROW_COUNT_ADULT = 5;
-        const COL_COUNT_ADULT = 19; // 10 L, 9 P
-        const ROW_COUNT_CHILD = 2;
+        const ROW_COUNT_ADULT = 3; // Kurangkan ke 3 untuk paparan demo lebih kemas
+        const COL_COUNT_ADULT = 19; 
+        const ROW_COUNT_CHILD = 1;
         const COL_COUNT_CHILD = 10;
 
-        const THEME = {
-            male: '#3b82f6',
-            female: '#ec4899',
-            child: '#f59e0b',
-            empty: '#e5e7eb',
-            reserved: '#8b5cf6'
-        };
-
-        // --- MOCK DATABASE GENERATOR ---
+        // --- MOCK DATABASE ---
         const generateMockData = () => {
             const positions = [];
             const deceasedRecords = [
                 { id: 101, name: "Ahmad bin Abdullah", dateOfDeath: "2023-05-15", age: 65, gender: 'lelaki', notes: "Meninggal kerana sakit tua." },
                 { id: 102, name: "Fatimah binti Hassan", dateOfDeath: "2023-06-20", age: 72, gender: 'perempuan', notes: "" },
                 { id: 103, name: "Mohd Ali bin Abu", dateOfDeath: "2024-01-10", age: 55, gender: 'lelaki', notes: "Kemalangan" },
-                { id: 104, name: "Siti Aminah binti Omar", dateOfDeath: "2024-02-05", age: 80, gender: 'perempuan', notes: "Dikebumikan sebelah petang." },
-                { id: 105, name: "Muhammad Zikri", dateOfDeath: "2024-03-12", age: 8, gender: 'lelaki', notes: "Kanak-kanak" },
             ];
 
             let recordIndex = 0;
 
-            // Generate Adult Section
             for (let r = 1; r <= ROW_COUNT_ADULT; r++) {
                 for (let c = 1; c <= COL_COUNT_ADULT; c++) {
                     const isMaleSide = c <= 10;
@@ -262,41 +231,32 @@
                     let status = 'kosong';
                     let record = null;
 
-                    // Assign some random records
-                    if ((r === 1 && c === 2) || (r === 2 && c === 15) || (r === 3 && c === 5) || (r === 4 && c === 12)) {
+                    if ((r === 1 && c === 2) || (r === 2 && c === 14)) {
                         status = 'telah_digunakan';
                         record = deceasedRecords[recordIndex++];
-                    } else if (r === 1 && c === 18) {
-                        status = 'tempahan';
+                    } else if (r === 1 && c === 7) {
+                        status = 'tempahan'; // Simulate the yellow box #7
+                    } else if (r === 1 && c === 15) {
+                        status = 'tempahan'; // Simulate the yellow box #15
                     }
 
                     positions.push({
                         id, section: 'dewasa', row: r, col: c,
-                        lotNumber: `B1-${r}-${c}`,
+                        lotNumber: `Blok A - Baris ${r} - Lot ${c}`,
                         genderAssigned: isMaleSide ? 'lelaki' : 'perempuan',
                         status, record
                     });
                 }
             }
 
-            // Generate Child Section
             for (let r = 1; r <= ROW_COUNT_CHILD; r++) {
                 for (let c = 1; c <= COL_COUNT_CHILD; c++) {
                     const id = `C-R${r}-C${c}`;
                     let status = 'kosong';
-                    let record = null;
-
-                    if (r === 1 && c === 3) {
-                        status = 'telah_digunakan';
-                        record = deceasedRecords[recordIndex];
-                    }
-
                     positions.push({
-                        id, section: 'kanak-kanak',
-                        row: r + ROW_COUNT_ADULT, // For logic/UI mapping
-                        col: c, lotNumber: `K1-${r}-${c}`,
-                        genderAssigned: 'campur',
-                        status, record
+                        id, section: 'kanak-kanak', row: r + ROW_COUNT_ADULT, col: c, 
+                        lotNumber: `Kanak-kanak - Lot ${c}`,
+                        genderAssigned: 'campur', status, record: null
                     });
                 }
             }
@@ -306,81 +266,87 @@
         const MOCK_DB = generateMockData();
         let currentHighlightedId = null;
 
-        // --- RENDERING LOGIC ---
-        function getGraveColor(grave) {
-            if (grave.status === 'kosong') return THEME.empty;
-            if (grave.status === 'tempahan') return THEME.reserved;
-            if (grave.section === 'kanak-kanak') return THEME.child;
-            return grave.record?.gender === 'lelaki' ? THEME.male : THEME.female;
+        // --- STYLING LOGIC MATCHING IMAGE ---
+        function getGraveStyles(grave) {
+            // Priority 1: Status
+            if (grave.status === 'telah_digunakan') return 'bg-[#e2e8f0] border-gray-400 text-gray-800'; // Grey
+            if (grave.status === 'tempahan') return 'bg-[#ffcc00] border-[#e6b800] text-gray-900'; // Yellow/Orange
+            
+            // Priority 2: Section / Gender (Kosong)
+            if (grave.section === 'kanak-kanak') return 'bg-[#ffe180] border-[#f0c862] text-gray-800'; // Light Yellow
+            if (grave.genderAssigned === 'lelaki') return 'bg-[#cbe2fa] border-[#a2c8f0] text-[#004085]'; // Light Blue
+            if (grave.genderAssigned === 'perempuan') return 'bg-[#ffc8db] border-[#f0a6c2] text-[#721c24]'; // Light Pink
+            
+            return 'bg-white border-gray-300 text-gray-800';
         }
 
+        // --- RENDERING ---
         function initGrid() {
             const adultContainer = document.getElementById('adultGridContainer');
-            const childContainer = document.getElementById('childGridContainer');
             
-            let adultHTML = '';
-            // Render Adult Rows
+            // Generate CSS Grid for Adult Section (19 columns + 1 label column)
+            let adultHTML = `<div class="grid grid-cols-[auto_repeat(19,minmax(0,1fr))] gap-1 items-stretch min-w-[800px]">`;
+
+            // Row 1: The large gender headers
+            adultHTML += `<div></div>`; // Empty corner cell
+            adultHTML += `<div class="col-span-10 bg-[#cbe2fa] border border-[#a2c8f0] text-[#004085] text-center font-bold text-[11px] sm:text-xs py-2 rounded-tl-md shadow-sm">LELAKI (10 PETAK)</div>`;
+            adultHTML += `<div class="col-span-9 bg-[#ffc8db] border border-[#f0a6c2] text-[#721c24] text-center font-bold text-[11px] sm:text-xs py-2 rounded-tr-md shadow-sm">PEREMPUAN (9 PETAK)</div>`;
+
+            // Row 2: The number headers (1 to 19)
+            adultHTML += `<div></div>`; // Empty corner cell
+            for(let i=1; i<=19; i++) {
+                adultHTML += `<div class="text-center font-bold text-gray-700 text-xs sm:text-sm py-2 bg-gray-50 border border-gray-200">${i}</div>`;
+            }
+
+            // Row 3 onwards: The actual grave slots
             for (let r = 1; r <= ROW_COUNT_ADULT; r++) {
                 const rowGraves = MOCK_DB.filter(g => g.section === 'dewasa' && g.row === r);
-                adultHTML += `<div class="flex items-center gap-2 sm:gap-4">
-                                <div class="w-6 sm:w-8 font-bold text-gray-400 text-right text-xs sm:text-base">B${r}</div>
-                                <div class="flex gap-1.5 sm:gap-2 relative">`;
                 
+                // Row Label (R1, R2...)
+                adultHTML += `<div class="flex items-center justify-end pr-3 font-bold text-gray-500 text-xs sm:text-sm">R${r}</div>`;
+                
+                // Slots
                 rowGraves.forEach(grave => {
-                    const color = getGraveColor(grave);
-                    const isSeparator = grave.col === 10;
-                    const tooltip = `Lot: ${grave.lotNumber}\nStatus: ${grave.status.replace('_', ' ')}`;
-                    
+                    const styleClass = getGraveStyles(grave);
                     adultHTML += `
                         <button id="grave-${grave.id}" 
-                                class="grave-slot relative w-7 h-14 sm:w-10 sm:h-20 rounded sm:rounded-md focus:outline-none focus:ring-2 focus:ring-green-400 shrink-0"
-                                style="background-color: ${color};"
-                                title="${tooltip}"
-                                onclick="handleGraveClick('${grave.id}')">
-                            ${isSeparator ? '<div class="gender-separator hidden sm:block"></div>' : ''}
+                                class="grave-slot relative w-full aspect-square flex items-center justify-center font-bold text-sm sm:text-base rounded-[3px] border shadow-sm ${styleClass}"
+                                onclick="handleGraveClick('${grave.id}')"
+                                title="Lot: ${grave.lotNumber}\nStatus: ${grave.status.replace('_', ' ')}">
+                            ${grave.col}
                         </button>
                     `;
                 });
-                adultHTML += `</div></div>`;
             }
+            adultHTML += `</div>`;
             adultContainer.innerHTML = adultHTML;
 
-            // Render Child Rows
+            // Generate Flex Container for Child Section
+            const childContainer = document.getElementById('childGridContainer');
             let childHTML = '';
-            for (let r = 1; r <= ROW_COUNT_CHILD; r++) {
-                const actualRow = r + ROW_COUNT_ADULT;
-                const rowGraves = MOCK_DB.filter(g => g.section === 'kanak-kanak' && g.row === actualRow);
-                childHTML += `<div class="flex items-center gap-2 sm:gap-4">
-                                <div class="w-6 sm:w-8 font-bold text-gray-400 text-right text-xs sm:text-base">B${r}</div>
-                                <div class="flex gap-1.5 sm:gap-2">`;
-                
-                rowGraves.forEach(grave => {
-                    const color = getGraveColor(grave);
-                    const tooltip = `Lot: ${grave.lotNumber}\nStatus: ${grave.status.replace('_', ' ')}`;
-                    
-                    childHTML += `
-                        <button id="grave-${grave.id}" 
-                                class="grave-slot w-5 h-10 sm:w-8 sm:h-14 rounded sm:rounded-md focus:outline-none focus:ring-2 focus:ring-amber-400 shrink-0"
-                                style="background-color: ${color};"
-                                title="${tooltip}"
-                                onclick="handleGraveClick('${grave.id}')">
-                        </button>
-                    `;
-                });
-                childHTML += `</div></div>`;
-            }
+            const childGraves = MOCK_DB.filter(g => g.section === 'kanak-kanak');
+            childGraves.forEach(grave => {
+                const styleClass = getGraveStyles(grave);
+                childHTML += `
+                    <button id="grave-${grave.id}" 
+                            class="grave-slot w-12 h-12 sm:w-14 sm:h-14 flex items-center justify-center font-bold text-sm sm:text-base rounded-md border shadow-sm ${styleClass}"
+                            onclick="handleGraveClick('${grave.id}')"
+                            title="Lot: ${grave.lotNumber}\nStatus: ${grave.status.replace('_', ' ')}">
+                        ${grave.col}
+                    </button>
+                `;
+            });
+            // Add the arrow icon at the end like the image
+            childHTML += `<div class="w-10 flex items-center justify-center text-green-700"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg></div>`
+            
             childContainer.innerHTML = childHTML;
         }
 
-        // --- INTERACTION LOGIC ---
+        // --- INTERACTION LOGIC (Preserved from previous) ---
         function handleSearch() {
             const query = document.getElementById('searchInput').value.toLowerCase().trim();
             const suggestionsBox = document.getElementById('searchSuggestions');
-            const clearBtn = document.getElementById('clearSearchBtn');
             
-            if (query.length > 0) clearBtn.classList.remove('hidden');
-            else clearBtn.classList.add('hidden');
-
             if (query.length === 0) {
                 suggestionsBox.classList.add('hidden');
                 clearHighlight();
@@ -388,30 +354,24 @@
             }
 
             const results = MOCK_DB.filter(grave => 
-                grave.status === 'telah_digunakan' && 
-                grave.record && 
-                grave.record.name.toLowerCase().includes(query)
+                grave.status === 'telah_digunakan' && grave.record && grave.record.name.toLowerCase().includes(query)
             );
 
             if (results.length > 0) {
                 let html = '';
                 results.forEach(grave => {
                     html += `
-                        <button class="w-full text-left px-4 py-3 hover:bg-green-50 border-b border-gray-50 last:border-0 flex items-center justify-between transition-colors focus:bg-green-50"
+                        <button class="w-full text-left px-4 py-3 hover:bg-green-50 border-b border-gray-100 last:border-0 transition-colors"
                                 onclick="selectSearchResult('${grave.id}')">
-                            <div>
-                                <p class="font-semibold text-gray-800 text-base sm:text-lg">${grave.record.name}</p>
-                                <p class="text-xs sm:text-sm text-gray-500">Lot: ${grave.lotNumber}</p>
-                            </div>
-                            <svg class="w-4 h-4 sm:w-5 sm:h-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+                            <p class="font-semibold text-gray-800">${grave.record.name}</p>
+                            <p class="text-sm text-gray-500">${grave.lotNumber}</p>
                         </button>
                     `;
                 });
                 suggestionsBox.innerHTML = html;
             } else {
-                suggestionsBox.innerHTML = `<div class="p-4 text-center text-sm sm:text-base text-gray-500">Tiada rekod dijumpai.</div>`;
+                suggestionsBox.innerHTML = `<div class="p-4 text-center text-gray-500">Tiada rekod dijumpai.</div>`;
             }
-            
             suggestionsBox.classList.remove('hidden');
         }
 
@@ -423,38 +383,19 @@
             document.getElementById('searchSuggestions').classList.add('hidden');
             
             applyHighlight(graveId);
-            
-            // Hide keyboard on mobile after selection
             document.getElementById('searchInput').blur();
 
-            // Auto-scroll logic adapted for mobile sizing
             setTimeout(() => {
                 const el = document.getElementById(`grave-${graveId}`);
                 const container = document.getElementById('mapContainer');
-                
                 if(el && container) {
-                    // Calculate center position manually for better cross-browser mobile support
                     const elRect = el.getBoundingClientRect();
                     const containerRect = container.getBoundingClientRect();
-                    
                     const scrollLeft = el.offsetLeft - (containerRect.width / 2) + (elRect.width / 2);
                     const scrollTop = el.offsetTop - (containerRect.height / 2) + (elRect.height / 2);
-
-                    container.scrollTo({
-                        left: scrollLeft,
-                        top: scrollTop,
-                        behavior: 'smooth'
-                    });
+                    container.scrollTo({ left: scrollLeft, top: scrollTop, behavior: 'smooth' });
                 }
             }, 100);
-        }
-
-        function clearSearch() {
-            document.getElementById('searchInput').value = '';
-            document.getElementById('searchSuggestions').classList.add('hidden');
-            document.getElementById('clearSearchBtn').classList.add('hidden');
-            clearHighlight();
-            document.getElementById('searchInput').focus();
         }
 
         function handleGraveClick(graveId) {
@@ -466,9 +407,7 @@
             clearHighlight();
             currentHighlightedId = graveId;
             const el = document.getElementById(`grave-${graveId}`);
-            if(el) {
-                el.classList.add('grave-highlighted');
-            }
+            if(el) el.classList.add('grave-highlighted');
         }
 
         function clearHighlight() {
@@ -485,71 +424,40 @@
 
             const modalBody = document.getElementById('modalBody');
             
-            // Common Header for Lot info
             let html = `
-                <div class="flex items-center gap-3 sm:gap-4 mb-5 sm:mb-6 pb-5 sm:pb-6 border-b border-gray-100">
-                    <div class="w-14 h-14 sm:w-16 sm:h-16 shrink-0 rounded-xl bg-green-100 flex items-center justify-center text-green-700">
-                        <svg class="w-7 h-7 sm:w-8 sm:h-8" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="9" x2="20" y2="9"></line><line x1="4" y1="15" x2="20" y2="15"></line><line x1="10" y1="3" x2="8" y2="21"></line><line x1="16" y1="3" x2="14" y2="21"></line></svg>
-                    </div>
-                    <div>
-                        <p class="text-xs sm:text-sm text-gray-500 uppercase tracking-wider font-semibold">No. Lot / Posisi</p>
-                        <p class="text-xl sm:text-2xl font-bold text-gray-900">${grave.lotNumber}</p>
-                        <p class="text-xs sm:text-sm text-gray-600 capitalize">Bahagian: ${grave.section} ${grave.section === 'dewasa' ? `(${grave.genderAssigned})` : ''}</p>
-                    </div>
+                <div class="mb-6 pb-4 border-b border-gray-100">
+                    <p class="text-sm text-gray-500 uppercase font-semibold tracking-wider">LOKASI KUBUR</p>
+                    <p class="text-2xl font-bold text-gray-900 mt-1">${grave.lotNumber}</p>
+                    <p class="text-sm text-gray-600 mt-1 capitalize">Kategori: ${grave.section} ${grave.section === 'dewasa' ? `(${grave.genderAssigned})` : ''}</p>
                 </div>
             `;
 
             if (grave.status === 'kosong') {
-                html += `
-                    <div class="text-center py-6 sm:py-8">
-                        <div class="inline-flex items-center justify-center w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-gray-100 mb-3 sm:mb-4">
-                            <svg class="w-7 h-7 sm:w-8 sm:h-8 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
-                        </div>
-                        <h4 class="text-lg sm:text-xl font-bold text-gray-700 mb-1 sm:mb-2">Lot Ini Kosong</h4>
-                        <p class="text-sm sm:text-base text-gray-500">Lot ini sedia untuk digunakan.</p>
-                    </div>
-                `;
+                html += `<div class="text-center py-8"><h4 class="text-xl font-bold text-gray-700">Lot Ini Kosong</h4></div>`;
             } else if (grave.status === 'tempahan') {
-                html += `
-                    <div class="text-center py-6 sm:py-8">
-                        <div class="inline-flex items-center justify-center w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-violet-100 mb-3 sm:mb-4">
-                            <svg class="w-7 h-7 sm:w-8 sm:h-8 text-violet-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
-                        </div>
-                        <h4 class="text-lg sm:text-xl font-bold text-violet-700 mb-1 sm:mb-2">Telah Ditempah</h4>
-                        <p class="text-sm sm:text-base text-gray-500">Lot ini telah ditempah terlebih dahulu.</p>
-                    </div>
-                `;
+                html += `<div class="text-center py-8"><h4 class="text-xl font-bold text-[#d97706]">Telah Ditempah</h4></div>`;
             } else if (grave.record) {
                 const dateStr = new Date(grave.record.dateOfDeath).toLocaleDateString('ms-MY', { day: 'numeric', month: 'long', year: 'numeric' });
                 html += `
-                    <div class="space-y-4 sm:space-y-5">
+                    <div class="space-y-5">
                         <div>
-                            <p class="text-xs sm:text-sm text-gray-500 mb-1 font-semibold">Nama Penuh</p>
-                            <p class="text-lg sm:text-xl font-bold text-gray-900 flex items-start gap-2">
-                                <svg class="w-5 h-5 sm:w-6 sm:h-6 text-green-600 shrink-0 mt-0.5 sm:mt-0.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-                                ${grave.record.name}
-                            </p>
+                            <p class="text-sm text-gray-500 font-semibold mb-1">Nama Penuh</p>
+                            <p class="text-xl font-bold text-gray-900">${grave.record.name}</p>
                         </div>
-                        <div class="grid grid-cols-2 gap-3 sm:gap-4">
-                            <div class="bg-gray-50 p-3 sm:p-4 rounded-xl border border-gray-100">
-                                <p class="text-xs sm:text-sm text-gray-500 mb-1 font-semibold flex items-center gap-1">
-                                    <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg> 
-                                    Tarikh Meninggal
-                                </p>
-                                <p class="text-base sm:text-lg font-bold text-gray-800">${dateStr}</p>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="bg-gray-50 p-4 rounded-xl border border-gray-100">
+                                <p class="text-sm text-gray-500 font-semibold">Tarikh Meninggal</p>
+                                <p class="text-lg font-bold text-gray-800 mt-1">${dateStr}</p>
                             </div>
-                            <div class="bg-gray-50 p-3 sm:p-4 rounded-xl border border-gray-100">
-                                <p class="text-xs sm:text-sm text-gray-500 mb-1 font-semibold">Jantina & Umur</p>
-                                <p class="text-base sm:text-lg font-bold text-gray-800 capitalize">${grave.record.gender}, ${grave.record.age} thn</p>
+                            <div class="bg-gray-50 p-4 rounded-xl border border-gray-100">
+                                <p class="text-sm text-gray-500 font-semibold">Jantina & Umur</p>
+                                <p class="text-lg font-bold text-gray-800 mt-1 capitalize">${grave.record.gender}, ${grave.record.age} thn</p>
                             </div>
                         </div>
                         ${grave.record.notes ? `
-                            <div class="mt-3 sm:mt-4 p-3 sm:p-4 bg-blue-50 rounded-xl border border-blue-100 text-blue-800">
-                                <p class="text-xs sm:text-sm font-semibold mb-1 flex items-center gap-1">
-                                    <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
-                                    Nota Tambahan
-                                </p>
-                                <p class="text-sm sm:text-base">${grave.record.notes}</p>
+                            <div class="mt-4 p-4 bg-green-50 rounded-xl border border-green-100 text-green-800">
+                                <p class="text-sm font-semibold mb-1">Nota Tambahan</p>
+                                <p class="text-base">${grave.record.notes}</p>
                             </div>
                         ` : ''}
                     </div>
@@ -557,20 +465,15 @@
             }
 
             modalBody.innerHTML = html;
-            // Reset scroll position for new modal content
             modalBody.scrollTop = 0; 
             document.getElementById('infoModal').classList.remove('hidden');
         }
 
         function closeModal() {
             document.getElementById('infoModal').classList.add('hidden');
-            // Check if search input is active. If not, clear highlight.
-            if(document.getElementById('searchInput').value === '') {
-                 clearHighlight();
-            }
+            if(document.getElementById('searchInput').value === '') clearHighlight();
         }
 
-        // Close dropdown when clicking outside
         document.addEventListener('click', function(event) {
             const searchContainer = document.querySelector('.relative.w-full');
             const suggestionsBox = document.getElementById('searchSuggestions');
@@ -579,7 +482,6 @@
             }
         });
 
-        // Initialize on load
         window.onload = initGrid;
     </script>
 </body>
